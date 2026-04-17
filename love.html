@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Секрет ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(270deg, #ff6a88, #ff99ac, #fad0c4);
+    background-size: 600% 600%;
+    animation: gradient 10s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+@keyframes gradient {
+    0% {background-position: 0%}
+    50% {background-position: 100%}
+    100% {background-position: 0%}
+}
+
+.envelope {
+    font-size: 120px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.envelope:hover {
+    transform: scale(1.2);
+}
+
+#inside {
+    display: none;
+    font-size: 40px;
+    margin-top: 20px;
+    animation: pop 0.5s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="envelope" onclick="openLetter()">💌</div>
+<div id="inside">❤️🔥</div>
+
+<script>
+function openLetter() {
+    document.getElementById('inside').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
