@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Для тебя ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    text-align: center;
+    color: white;
+}
+
+.container {
+    margin-top: 15vh;
+}
+
+img {
+    width: 260px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: float 3s ease-in-out infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+h1 {
+    margin-top: 10px;
+    font-size: 28px;
+}
+
+button {
+    padding: 15px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    position: absolute;
+    transition: all 0.2s ease;
+}
+
+#yes {
+    background: #28a745;
+    left: 35%;
+    top: 70%;
+}
+
+#no {
+    background: #dc3545;
+    left: 55%;
+    top: 70%;
+}
+
+#message {
+    margin-top: 30px;
+    font-size: 24px;
+    min-height: 40px;
+}
+
+.heart {
+    position: absolute;
+    color: red;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {transform: translateY(-10vh);}
+    100% {transform: translateY(110vh);}
+}
+
+/* Разбитый экран */
+.cracked {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://i.imgur.com/5cX1Z8P.png') center/cover no-repeat;
+    pointer-events: none;
+    opacity: 0;
+    animation: crackFlash 0.5s forwards;
+}
+
+@keyframes crackFlash {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Тряска */
+@keyframes shake {
+    0% { transform: translate(0px, 0px); }
+    25% { transform: translate(5px, -5px); }
+    50% { transform: translate(-5px, 5px); }
+    75% { transform: translate(5px, 5px); }
+    100% { transform: translate(0px, 0px); }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="crackSound">
+    <source src="https://www.soundjay.com/mechanical/sounds/glass-break-01.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+    <img src="https://i.ibb.co/Fq4yDP3C/IMG-2818.jpg" alt="Её фото">
+
+    <h1>Ты соскучилась? ❤️</h1>
+
+    <button id="yes">Да</button>
+    <button id="no">Нет</button>
+
+    <div id="message"></div>
+</div>
+
+<script>
+const noBtn = document.getElementById('no');
+const yesBtn = document.getElementById('yes');
+const message = document.getElementById('message');
+const crackSound = document.getElementById('crackSound');
+const music = document.getElementById('music');
+
+let noClickCount = 0;
+
+// запуск музыки после первого клика (фикс ошибки)
+document.body.addEventListener('click', () => {
+    music.play().catch(() => {});
+}, { once: true });
+
+// убегающая кнопка
+noBtn.addEventListener('mouseover', () => {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 100);
+
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+});
+
+// кнопка "Нет"
+noBtn.addEventListener('click', () => {
+    noClickCount++;
+
+    message.innerText = "Вечером разберемся 😏";
+
+    if (noClickCount >= 5) {
+        showCrackEffect();
+        noClickCount = 0;
+    }
+});
+
+// кнопка "Да"
+yesBtn.addEventListener('click', () => {
+    message.innerText = "Вот это правильно, милая ❤️";
+    explodeHearts();
+});
+
+// автонажатие "Да"
+setTimeout(() => {
+    yesBtn.click();
+}, 4000);
+
+// сердечки
+function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.innerText = '❤️';
+
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
+}
+
+setInterval(createHeart, 300);
+
+// взрыв сердечек
+function explodeHearts() {
+    for (let i = 0; i < 30; i++) {
+        createHeart();
+    }
+}
+
+// эффект разбитого экрана
+function showCrackEffect() {
+    const crack = document.createElement('div');
+    crack.classList.add('cracked');
+    document.body.appendChild(crack);
+
+    // звук (без ошибки)
+    crackSound.currentTime = 0;
+    crackSound.play().catch(() => {});
+
+    // тряска
+    document.body.style.animation = "shake 0.3s";
+
+    setTimeout(() => {
+        crack.remove();
+        document.body.style.animation = "";
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
