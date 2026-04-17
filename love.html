@@ -45,17 +45,41 @@ body {
     from { transform: scale(0); }
     to { transform: scale(1); }
 }
+
+#nextBtn {
+    display: none;
+    margin-top: 25px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    background: #ff4d6d;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#nextBtn:hover {
+    transform: scale(1.05);
+}
 </style>
 </head>
 
 <body>
 
 <div class="envelope" onclick="openLetter()">💌</div>
-<div id="inside">❤️🖕🏻</div>
+<div id="inside">❤️🔥</div>
+
+<button id="nextBtn" onclick="goNext()">Дальше 🎁</button>
 
 <script>
 function openLetter() {
     document.getElementById('inside').style.display = 'block';
+    document.getElementById('nextBtn').style.display = 'inline-block';
+}
+
+function goNext() {
+    window.location.href = "gift.html";
 }
 </script>
 
